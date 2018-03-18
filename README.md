@@ -14,7 +14,7 @@ val retrofit = Retrofit.Builder()
     .build()
 ```
 
-Your service methods can now use `com.fpinbo.kall.kall ` as their return type.
+Your service methods can now use `Kall ` as their return type.
 ```kotlin
 
 interface GitHubAPI {
