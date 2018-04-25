@@ -1,10 +1,12 @@
 package com.fpinbo.kall
 
+import com.fpinbo.kall.response.Response
+import com.fpinbo.kall.response.fold
 import okhttp3.Request
 
 class FlatMapKall<A, B>(
-        private val originalKall: Kall<A>,
-        private val f: (A) -> Kall<B>
+    private val originalKall: Kall<A>,
+    private val f: (A) -> Kall<B>
 ) : Kall<B> {
 
     override fun cancel() = originalKall.cancel()
@@ -27,8 +29,8 @@ class FlatMapKall<A, B>(
 
     private fun buildResponse(response: Response<A>): Response<B> {
         return response.fold(
-                { Response.Error(it.errorBody, it.code, it.headers, it.message, it.raw) },
-                { f(it.body).execute() })
+            { Response.Error(it.errorBody, it.code, it.headers, it.message) },
+            { f(it.body).execute() })
     }
 
     override val cancelled: Boolean
@@ -39,5 +41,4 @@ class FlatMapKall<A, B>(
 
     override val request: Request
         get() = originalKall.request
-
 }
