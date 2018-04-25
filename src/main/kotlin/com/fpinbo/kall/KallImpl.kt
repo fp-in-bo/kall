@@ -1,10 +1,11 @@
 package com.fpinbo.kall
 
+import com.fpinbo.kall.response.Response
 import okhttp3.Request
 import retrofit2.Callback
 
 class KallImpl<A>(
-        private val retrofitCall: retrofit2.Call<A>
+    private val retrofitCall: retrofit2.Call<A>
 ) : Kall<A> {
 
     override fun cancel() = retrofitCall.cancel()
@@ -40,9 +41,9 @@ class KallImpl<A>(
 
     private fun buildResponse(response: retrofit2.Response<A>): Response<A> {
         return if (response.isSuccessful) {
-            Response.Success(response.body()!!, response.code(), response.headers(), response.message(), response.raw())
+            Response.Success(response.body()!!, response.code(), response.headers(), response.message())
         } else {
-            Response.Error(response.errorBody()!!, response.code(), response.headers(), response.message(), response.raw())
+            Response.Error(response.errorBody()!!, response.code(), response.headers(), response.message())
         }
     }
 }

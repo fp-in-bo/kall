@@ -1,4 +1,4 @@
-package com.fpinbo.kall
+package com.fpinbo.kall.response
 
 fun <A, T> Response<A>.fold(fe: (Response.Error<A>) -> T, fs: (Response.Success<A>) -> T): T {
 
@@ -10,7 +10,7 @@ fun <A, T> Response<A>.fold(fe: (Response.Error<A>) -> T, fs: (Response.Success<
 
 fun <A, B> Response<A>.map(f: (A) -> B): Response<B> {
     return fold(
-            { Response.Error(it.errorBody, code, headers, message, raw) },
-            { Response.Success(f(it.body), code, headers, message, raw) }
+        { Response.Error(it.errorBody, code, headers, message) },
+        { Response.Success(f(it.body), code, headers, message) }
     )
 }

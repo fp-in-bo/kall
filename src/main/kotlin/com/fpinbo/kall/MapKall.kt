@@ -1,10 +1,12 @@
 package com.fpinbo.kall
 
+import com.fpinbo.kall.response.Response
+import com.fpinbo.kall.response.map
 import okhttp3.Request
 
 class MapKall<A, B>(
-        private val originalKall: Kall<A>,
-        private val f: (A) -> B) : Kall<B> {
+    private val originalKall: Kall<A>,
+    private val f: (A) -> B) : Kall<B> {
 
     override fun cancel() = originalKall.cancel()
 
@@ -22,7 +24,6 @@ class MapKall<A, B>(
             onFailure(this, throwable)
         })
     }
-
 
     override val cancelled: Boolean
         get() = originalKall.cancelled

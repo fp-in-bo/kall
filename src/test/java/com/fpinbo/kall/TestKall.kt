@@ -1,14 +1,14 @@
 package com.fpinbo.kall
 
+import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
 
-
 class TestKall {
 
-    val api: GitHubAPI = Retrofit.instance.create(GitHubAPI::class.java)
+    val api = GitHubAPI()
 
     val dcampogiani = User("dcampogiani", "https://api.github.com/users/dcampogiani/followers")
 
@@ -18,9 +18,8 @@ class TestKall {
         val response = call.execute()
 
         response.fold(
-                { fail() },
-                { assertEquals(dcampogiani, it.body) })
-
+            { fail() },
+            { assertEquals(dcampogiani, it.body) })
     }
 
     @Test
@@ -29,18 +28,18 @@ class TestKall {
 
         val call = api.getUser("dcampogiani")
         call.executeAsync(
-                onResponse = { _, response ->
-                    response.fold(
-                            { fail() },
-                            {
-                                assertEquals(dcampogiani, it.body)
-                                latch.countDown()
-                            })
-                },
-                onFailure = { _, _ ->
-                    latch.countDown()
-                    fail()
-                }
+            onResponse = { _, response ->
+                response.fold(
+                    { fail() },
+                    {
+                        assertEquals(dcampogiani, it.body)
+                        latch.countDown()
+                    })
+            },
+            onFailure = { _, _ ->
+                latch.countDown()
+                fail()
+            }
         )
 
         latch.await()
@@ -52,9 +51,8 @@ class TestKall {
         val response = call.execute()
 
         response.fold(
-                { fail() },
-                { assertEquals("DCAMPOGIANI", it.body) })
-
+            { fail() },
+            { assertEquals("DCAMPOGIANI", it.body) })
     }
 
     @Test
@@ -63,8 +61,8 @@ class TestKall {
         val response = call.execute()
 
         response.fold(
-                { assertEquals(404, response.code) },
-                { fail() })
+            { assertEquals(404, response.code) },
+            { fail() })
     }
 
     @Test
@@ -75,9 +73,8 @@ class TestKall {
         val response = call.execute()
 
         response.fold(
-                { fail() },
-                { assertEquals("mattpoggi", it.body.first().login) })
-
+            { fail() },
+            { assertEquals("mattpoggi", it.body.first().login) })
     }
 
     @Test
@@ -88,7 +85,7 @@ class TestKall {
         val response = call.execute()
 
         response.fold(
-                { assertEquals(404, response.code) },
-                { fail() })
+            { assertEquals(404, response.code) },
+            { fail() })
     }
 }

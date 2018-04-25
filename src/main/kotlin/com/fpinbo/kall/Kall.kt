@@ -1,5 +1,7 @@
 package com.fpinbo.kall
 
+import com.fpinbo.kall.response.Response
+
 interface Kall<A> {
 
     fun cancel()
