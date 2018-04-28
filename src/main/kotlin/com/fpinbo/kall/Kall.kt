@@ -73,7 +73,7 @@ sealed class Kall<A> {
     ) : Kall<B>() {
         override fun cancel() = original.cancel()
 
-        override fun clone(): Kall<B> = Map(original, f)
+        override fun clone(): Kall<B> = Map(original.clone(), f)
 
         override fun executeAsync(onResponse: (Kall<B>, Response<B>) -> Unit, onFailure: (Kall<B>, Throwable) -> Unit) {
             original.executeAsync({ _, response ->
@@ -95,7 +95,7 @@ sealed class Kall<A> {
     ) : Kall<B>() {
         override fun cancel() = original.cancel()
 
-        override fun clone(): Kall<B> = FlatMap(original, f)
+        override fun clone(): Kall<B> = FlatMap(original.clone(), f)
 
         override fun executeAsync(onResponse: (Kall<B>, Response<B>) -> Unit,
                                   onFailure: (Kall<B>, Throwable) -> Unit) {
