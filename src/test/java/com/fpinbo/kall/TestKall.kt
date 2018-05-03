@@ -70,6 +70,7 @@ class TestKall {
         val call = api.getUser("dcampogiani").flatMap {
             api.getFollowers(it.followersUrl)
         }
+
         val response = call.execute()
 
         response.fold(

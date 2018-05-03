@@ -101,10 +101,16 @@ sealed class Kall<A> {
                                   onFailure: (Kall<B>, Throwable) -> Unit) {
 
             original.executeAsync({ _, response ->
-                val responseB = response.fold(
+                response.fold(
                         { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
-                        { f(it.body).execute() })
-                onResponse(this, responseB)
+                        {
+                            f(it.body).executeAsync({ _, res ->
+                                res.fold(
+                                        { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
+                                        { onResponse(this, res) })
+                            }, { _, t -> onFailure(this, t) })
+                        })
+
             }, { _, t -> onFailure(this, t) })
 
         }
