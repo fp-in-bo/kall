@@ -2,7 +2,6 @@ package com.fpinbo.kall
 
 import com.fpinbo.kall.response.Response
 import com.fpinbo.kall.response.map
-import okhttp3.Request
 
 class MapKall<A, B>(
     private val originalKall: Kall<A>,
@@ -30,7 +29,4 @@ class MapKall<A, B>(
 
     override val executed: Boolean
         get() = originalKall.executed
-
-    override val request: Request
-        get() = originalKall.request
 }

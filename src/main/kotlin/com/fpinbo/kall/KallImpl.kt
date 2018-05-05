@@ -1,7 +1,6 @@
 package com.fpinbo.kall
 
 import com.fpinbo.kall.response.Response
-import okhttp3.Request
 import retrofit2.Callback
 
 class KallImpl<A>(
@@ -35,9 +34,6 @@ class KallImpl<A>(
 
     override val executed: Boolean
         get() = retrofitCall.isExecuted
-
-    override val request: Request
-        get() = retrofitCall.request()
 
     private fun buildResponse(response: retrofit2.Response<A>): Response<A> {
         return if (response.isSuccessful) {

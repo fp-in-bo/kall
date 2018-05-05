@@ -4,6 +4,8 @@ import com.fpinbo.kall.response.Response
 
 interface Kall<A> {
 
+    companion object {}
+
     fun cancel()
 
     fun clone(): Kall<A>
@@ -15,6 +17,4 @@ interface Kall<A> {
     val cancelled: Boolean
 
     val executed: Boolean
-
-    val request: okhttp3.Request
 }

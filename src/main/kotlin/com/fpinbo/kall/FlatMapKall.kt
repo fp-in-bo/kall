@@ -2,7 +2,6 @@ package com.fpinbo.kall
 
 import com.fpinbo.kall.response.Response
 import com.fpinbo.kall.response.fold
-import okhttp3.Request
 
 class FlatMapKall<A, B>(
     private val originalKall: Kall<A>,
@@ -38,7 +37,4 @@ class FlatMapKall<A, B>(
 
     override val executed: Boolean
         get() = originalKall.executed
-
-    override val request: Request
-        get() = originalKall.request
 }
