@@ -7,7 +7,6 @@ import com.fpinbo.kall.response.map
 import okhttp3.Request
 import retrofit2.Callback
 
-
 sealed class Kall<A> {
 
     abstract fun execute(): Response<A>
@@ -24,8 +23,8 @@ sealed class Kall<A> {
 
     abstract val request: okhttp3.Request
 
-    data class RetrofitKall<A>(
-            private val retrofitCall: retrofit2.Call<A>
+    internal data class RetrofitKall<A>(
+        private val retrofitCall: retrofit2.Call<A>
     ) : Kall<A>() {
         override fun cancel() = retrofitCall.cancel()
 
@@ -67,9 +66,9 @@ sealed class Kall<A> {
         }
     }
 
-    data class Map<A, B>(
-            private val original: Kall<A>,
-            private val f: (A) -> B
+    internal data class Map<A, B>(
+        private val original: Kall<A>,
+        private val f: (A) -> B
     ) : Kall<B>() {
         override fun cancel() = original.cancel()
 
@@ -88,31 +87,29 @@ sealed class Kall<A> {
         override fun execute(): Response<B> = original.execute().map(f)
     }
 
-
-    data class FlatMap<A, B>(
-            private val original: Kall<A>,
-            private val f: (A) -> Kall<B>
+    internal data class FlatMap<A, B>(
+        private val original: Kall<A>,
+        private val f: (A) -> Kall<B>
     ) : Kall<B>() {
         override fun cancel() = original.cancel()
 
         override fun clone(): Kall<B> = FlatMap(original.clone(), f)
 
         override fun executeAsync(onResponse: (Kall<B>, Response<B>) -> Unit,
-                                  onFailure: (Kall<B>, Throwable) -> Unit) {
+            onFailure: (Kall<B>, Throwable) -> Unit) {
 
             original.executeAsync({ _, response ->
                 response.fold(
-                        { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
-                        {
-                            f(it.body).executeAsync({ _, res ->
-                                res.fold(
-                                        { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
-                                        { onResponse(this, res) })
-                            }, { _, t -> onFailure(this, t) })
-                        })
+                    { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
+                    {
+                        f(it.body).executeAsync({ _, res ->
+                            res.fold(
+                                { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
+                                { onResponse(this, res) })
+                        }, { _, t -> onFailure(this, t) })
+                    })
 
             }, { _, t -> onFailure(this, t) })
-
         }
 
         override val cancelled: Boolean = original.cancelled
