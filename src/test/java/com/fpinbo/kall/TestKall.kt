@@ -70,6 +70,7 @@ class TestKall {
         val call = api.getUser("dcampogiani").flatMap {
             api.getFollowers(it.followersUrl)
         }
+
         val response = call.execute()
 
         response.fold(
@@ -87,5 +88,31 @@ class TestKall {
         response.fold(
             { assertEquals(404, response.code) },
             { fail() })
+    }
+
+    @Test
+    fun flatMapExecuteAsyncSuccess() {
+        val latch = CountDownLatch(1)
+
+        val call = api.getUser("dcampogiani").flatMap {
+            api.getFollowers(it.followersUrl)
+        }
+
+        call.executeAsync(
+                onResponse = { _, response ->
+                    response.fold(
+                            { fail() },
+                            {
+                                assertEquals("mattpoggi", it.body.first().login)
+                                latch.countDown()
+                            })
+                },
+                onFailure = { _, _ ->
+                    latch.countDown()
+                    fail()
+                }
+        )
+
+        latch.await()
     }
 }

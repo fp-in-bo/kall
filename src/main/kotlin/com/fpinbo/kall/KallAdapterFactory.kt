@@ -25,7 +25,5 @@ private class ResponseKallAdapter<T>(
 
     override fun responseType() = responseType
 
-    override fun adapt(call: retrofit2.Call<T>): Kall<T> = KallImpl(call)
-
-
+    override fun adapt(call: retrofit2.Call<T>): Kall<T> = Kall.RetrofitKall(call)
 }
