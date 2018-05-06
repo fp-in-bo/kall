@@ -20,7 +20,7 @@ class KallAdapterFactory private constructor() : CallAdapter.Factory() {
 }
 
 private class ResponseKallAdapter<T>(
-        private val responseType: Type
+    private val responseType: Type
 ) : CallAdapter<T, Kall<T>> {
 
     override fun responseType() = responseType

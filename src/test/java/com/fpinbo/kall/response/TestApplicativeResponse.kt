@@ -1,10 +1,5 @@
-package com.fpinbo.kall
+package com.fpinbo.kall.response
 
-import com.fpinbo.kall.response.Response
-import com.fpinbo.kall.response.ap
-import com.fpinbo.kall.response.fold
-import com.fpinbo.kall.response.invoke
-import com.fpinbo.kall.response.just
 import okhttp3.Headers
 import okhttp3.MediaType
 import okhttp3.ResponseBody
@@ -14,8 +9,6 @@ import org.junit.Assert.fail
 import org.junit.Test
 
 class TestApplicativeResponse {
-
-    val api = GitHubAPI()
 
     @Test
     fun just() {
