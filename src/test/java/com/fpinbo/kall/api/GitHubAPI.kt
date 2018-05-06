@@ -1,5 +1,7 @@
-package com.fpinbo.kall
+package com.fpinbo.kall.api
 
+import com.fpinbo.kall.Kall
+import com.fpinbo.kall.KallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
