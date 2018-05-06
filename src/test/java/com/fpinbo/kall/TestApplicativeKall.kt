@@ -2,12 +2,12 @@ package com.fpinbo.kall
 
 import com.fpinbo.kall.response.Response
 import com.fpinbo.kall.response.fold
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.fail
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
+import junit.framework.TestCase.fail
 import okhttp3.Headers
 import okhttp3.MediaType
 import okhttp3.ResponseBody
-import org.junit.Assert
 import org.junit.Test
 
 class TestApplicativeKall {
@@ -18,12 +18,12 @@ class TestApplicativeKall {
         val response = kall.execute()
 
         response.fold(
-            { Assert.fail() },
+            { fail() },
             {
-                Assert.assertEquals("Value", it.body)
-                Assert.assertEquals(200, it.code)
-                Assert.assertEquals(0, it.headers.size())
-                Assert.assertNull(it.message)
+                assertEquals("Value", it.body)
+                assertEquals(200, it.code)
+                assertEquals(0, it.headers.size())
+                assertNull(it.message)
             })
     }
 
@@ -33,12 +33,12 @@ class TestApplicativeKall {
         val response = kall.execute()
 
         response.fold(
-            { Assert.fail() },
+            { fail() },
             {
-                Assert.assertEquals("Value", it.body)
-                Assert.assertEquals(200, it.code)
-                Assert.assertEquals(0, it.headers.size())
-                Assert.assertNull(it.message)
+                assertEquals("Value", it.body)
+                assertEquals(200, it.code)
+                assertEquals(0, it.headers.size())
+                assertNull(it.message)
             })
     }
 
@@ -51,12 +51,12 @@ class TestApplicativeKall {
         val result = apKall.execute()
 
         result.fold(
-            { Assert.fail() },
+            { fail() },
             {
-                Assert.assertEquals("VALUE", it.body)
-                Assert.assertEquals(200, it.code)
-                Assert.assertEquals(0, it.headers.size())
-                Assert.assertNull(it.message)
+                assertEquals("VALUE", it.body)
+                assertEquals(200, it.code)
+                assertEquals(0, it.headers.size())
+                assertNull(it.message)
             })
     }
 
