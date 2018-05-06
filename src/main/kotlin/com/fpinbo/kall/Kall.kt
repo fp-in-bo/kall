@@ -4,10 +4,11 @@ import com.fpinbo.kall.response.Response
 import com.fpinbo.kall.response.flatMap
 import com.fpinbo.kall.response.fold
 import com.fpinbo.kall.response.map
-import okhttp3.Request
 import retrofit2.Callback
 
 sealed class Kall<A> {
+
+    companion object {}
 
     abstract fun execute(): Response<A>
 
@@ -20,8 +21,6 @@ sealed class Kall<A> {
     abstract val cancelled: Boolean
 
     abstract val executed: Boolean
-
-    abstract val request: okhttp3.Request
 
     internal data class RetrofitKall<A>(
         private val retrofitCall: retrofit2.Call<A>
@@ -54,9 +53,6 @@ sealed class Kall<A> {
         override val executed: Boolean
             get() = retrofitCall.isExecuted
 
-        override val request: Request
-            get() = retrofitCall.request()
-
         private fun buildResponse(response: retrofit2.Response<A>): Response<A> {
             return if (response.isSuccessful) {
                 Response.Success(response.body()!!, response.code(), response.headers(), response.message())
@@ -82,7 +78,6 @@ sealed class Kall<A> {
 
         override val cancelled: Boolean = original.cancelled
         override val executed: Boolean = original.executed
-        override val request: Request = original.request
 
         override fun execute(): Response<B> = original.execute().map(f)
     }
@@ -114,8 +109,35 @@ sealed class Kall<A> {
 
         override val cancelled: Boolean = original.cancelled
         override val executed: Boolean = original.executed
-        override val request: Request = original.request
 
         override fun execute(): Response<B> = original.execute().flatMap { f(it).execute() }
+    }
+
+    internal data class JustKall<A>(private val value: Response<A>) : Kall<A>() {
+
+        private var mutableCancelled = false
+        private var mutableExecuted = false
+
+        override fun cancel() {
+            mutableCancelled = true
+        }
+
+        override fun clone(): Kall<A> = this
+
+        override fun execute(): Response<A> {
+            mutableExecuted = true
+            return value
+        }
+
+        override fun executeAsync(onResponse: (Kall<A>, Response<A>) -> Unit, onFailure: (Kall<A>, Throwable) -> Unit) {
+            mutableExecuted = true
+            onResponse(this, value)
+        }
+
+        override val cancelled: Boolean
+            get() = mutableCancelled
+
+        override val executed: Boolean
+            get() = mutableExecuted
     }
 }

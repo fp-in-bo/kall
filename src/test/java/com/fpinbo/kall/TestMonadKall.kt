@@ -8,33 +8,51 @@ import org.junit.Assert.fail
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
 
-class TestKall {
+class TestMonadKall {
 
     val api = GitHubAPI()
 
     val dcampogiani = User("dcampogiani", "https://api.github.com/users/dcampogiani/followers")
 
     @Test
-    fun executeSuccess() {
-        val call = api.getUser("dcampogiani")
+    fun flatMapSuccess() {
+        val call = api.getUser("dcampogiani").flatMap {
+            api.getFollowers(it.followersUrl)
+        }
+
         val response = call.execute()
 
         response.fold(
             { fail() },
-            { assertEquals(dcampogiani, it.body) })
+            { assertEquals("mattpoggi", it.body.first().login) })
     }
 
     @Test
-    fun executeAsyncSuccess() {
+    fun flatMapError() {
+        val call = api.getUser("-1").flatMap {
+            api.getFollowers(it.followersUrl)
+        }
+        val response = call.execute()
+
+        response.fold(
+            { assertEquals(404, response.code) },
+            { fail() })
+    }
+
+    @Test
+    fun flatMapExecuteAsyncSuccess() {
         val latch = CountDownLatch(1)
 
-        val call = api.getUser("dcampogiani")
+        val call = api.getUser("dcampogiani").flatMap {
+            api.getFollowers(it.followersUrl)
+        }
+
         call.executeAsync(
             onResponse = { _, response ->
                 response.fold(
                     { fail() },
                     {
-                        assertEquals(dcampogiani, it.body)
+                        assertEquals("mattpoggi", it.body.first().login)
                         latch.countDown()
                     })
             },
