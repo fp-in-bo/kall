@@ -1,10 +1,10 @@
-package com.fpinbo.kall.api
+package com.fpinbo.kall.api.github
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class User(
-    @JsonProperty("login") val login: String,
-    @JsonProperty("followers_url") val followersUrl: String
+data class Stargazer(
+    @JsonProperty("avatar_url") val avatarUrl: String,
+    @JsonProperty("login") val userName: String
 )
