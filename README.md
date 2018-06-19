@@ -5,6 +5,24 @@ A Retrofit 2 (Experimental) `CallAdapter.Factory` bringing map and flatmap to ca
 
 Usage
 -----
+Add **JitPack** repository to your `build.gradle` file
+
+``` gradle
+allprojects {
+	repositories {
+	     ...
+	     maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+Add the Dependency 
+
+``` gradle
+dependencies {
+    implementation "com.github.fp-in-bo:kall:0.0.1"
+}
+```
 
 Add `KallAdapterFactory` as a `Call` adapter when building your `Retrofit` instance:
 ```kotlin
