@@ -1,4 +1,4 @@
-Kall
+Kall ![Release](https://jitpack.io/v/fp-in-bo/kall.svg)
 =======================================
 
 A Retrofit 2 (Experimental) `CallAdapter.Factory` bringing map and flatmap to calls.
