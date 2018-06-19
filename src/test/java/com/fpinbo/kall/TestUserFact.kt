@@ -2,11 +2,14 @@ package com.fpinbo.kall
 
 import com.fpinbo.kall.api.jokes.JokesAPI
 import com.fpinbo.kall.api.randomuser.RandomUserAPI
+import com.fpinbo.kall.category.IntegrationTest
 import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.experimental.categories.Category
 
+@Category(IntegrationTest::class)
 class TestUserFact {
 
     val userApi = RandomUserAPI()
@@ -18,11 +21,11 @@ class TestUserFact {
         val response = call.execute()
 
         response.fold(
-            { fail() },
-            {
-                assertTrue(!it.body.results.first().name.first.isEmpty())
-                assertTrue(!it.body.results.first().name.last.isEmpty())
-            })
+                { fail() },
+                {
+                    assertTrue(!it.body.results.first().name.first.isEmpty())
+                    assertTrue(!it.body.results.first().name.last.isEmpty())
+                })
     }
 
     @Test
@@ -31,22 +34,22 @@ class TestUserFact {
         val response = call.execute()
 
         response.fold(
-            { fail() },
-            {
-                assertTrue(!it.body.value.joke.isEmpty())
-            })
+                { fail() },
+                {
+                    assertTrue(!it.body.value.joke.isEmpty())
+                })
     }
 
     @Test
     fun getUserAndThenJoke() {
         val call = userApi.getUser().map { Pair(it.results.first().name.first, it.results.first().name.last) }
-            .flatMap { jokeApi.getJoke(it.first, it.second) }
+                .flatMap { jokeApi.getJoke(it.first, it.second) }
         val response = call.execute()
 
         response.fold(
-            { fail() },
-            {
-                assertTrue(!it.body.value.joke.isEmpty())
-            })
+                { fail() },
+                {
+                    assertTrue(!it.body.value.joke.isEmpty())
+                })
     }
 }

@@ -9,10 +9,11 @@ buildscript {
     }
 }
 
-group 'com.kall'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'kotlin'
+apply plugin: 'maven'
+
+group = 'com.github.fp-in-bo'
+
 
 repositories {
     mavenCentral()
@@ -34,4 +35,11 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.6"
+}
+
+test {
+    useJUnit {
+        includeCategories 'com.fpinbo.kall.category.UnitTest'
+        excludeCategories 'com.fpinbo.kall.category.IntegrationTest'
+    }
 }

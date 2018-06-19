@@ -1,10 +1,28 @@
-Kall
+Kall ![Release](https://jitpack.io/v/fp-in-bo/kall.svg) [![Build Status](https://travis-ci.org/fp-in-bo/kall.svg?branch=master)](https://travis-ci.org/fp-in-bo/kall)
 =======================================
 
 A Retrofit 2 (Experimental) `CallAdapter.Factory` bringing map and flatmap to calls.
 
 Usage
 -----
+Add **JitPack** repository to your `build.gradle` file
+
+``` gradle
+allprojects {
+	repositories {
+	     ...
+	     maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+Add the Dependency 
+
+``` gradle
+dependencies {
+    implementation "com.github.fp-in-bo:kall:0.0.1"
+}
+```
 
 Add `KallAdapterFactory` as a `Call` adapter when building your `Retrofit` instance:
 ```kotlin

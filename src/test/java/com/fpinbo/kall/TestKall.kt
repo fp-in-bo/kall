@@ -2,12 +2,15 @@ package com.fpinbo.kall
 
 import com.fpinbo.kall.api.github.GitHubAPI
 import com.fpinbo.kall.api.github.User
+import com.fpinbo.kall.category.IntegrationTest
 import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import java.util.concurrent.CountDownLatch
 
+@Category(IntegrationTest::class)
 class TestKall {
 
     val api = GitHubAPI()
@@ -20,8 +23,8 @@ class TestKall {
         val response = call.execute()
 
         response.fold(
-            { fail() },
-            { assertEquals(dcampogiani, it.body) })
+                { fail() },
+                { assertEquals(dcampogiani, it.body) })
     }
 
     @Test
@@ -30,18 +33,18 @@ class TestKall {
 
         val call = api.getUser("dcampogiani")
         call.executeAsync(
-            onResponse = { _, response ->
-                response.fold(
-                    { fail() },
-                    {
-                        assertEquals(dcampogiani, it.body)
-                        latch.countDown()
-                    })
-            },
-            onFailure = { _, _ ->
-                latch.countDown()
-                fail()
-            }
+                onResponse = { _, response ->
+                    response.fold(
+                            { fail() },
+                            {
+                                assertEquals(dcampogiani, it.body)
+                                latch.countDown()
+                            })
+                },
+                onFailure = { _, _ ->
+                    latch.countDown()
+                    fail()
+                }
         )
 
         latch.await()
