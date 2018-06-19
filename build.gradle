@@ -36,3 +36,10 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.6"
 }
+
+test {
+    useJUnit {
+        includeCategories 'com.fpinbo.kall.category.UnitTest'
+        excludeCategories 'com.fpinbo.kall.category.IntegrationTest'
+    }
+}

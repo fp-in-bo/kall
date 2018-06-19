@@ -1,11 +1,14 @@
 package com.fpinbo.kall
 
 import com.fpinbo.kall.api.GitHubAPI
+import com.fpinbo.kall.category.IntegrationTest
 import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.experimental.categories.Category
 
+@Category(IntegrationTest::class)
 class TestFunctorKall {
 
     val api = GitHubAPI()
@@ -16,8 +19,8 @@ class TestFunctorKall {
         val response = call.execute()
 
         response.fold(
-            { fail() },
-            { assertEquals("DCAMPOGIANI", it.body) })
+                { fail() },
+                { assertEquals("DCAMPOGIANI", it.body) })
     }
 
     @Test
@@ -26,7 +29,7 @@ class TestFunctorKall {
         val response = call.execute()
 
         response.fold(
-            { assertEquals(404, response.code) },
-            { fail() })
+                { assertEquals(404, response.code) },
+                { fail() })
     }
 }

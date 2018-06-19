@@ -2,12 +2,15 @@ package com.fpinbo.kall
 
 import com.fpinbo.kall.api.GitHubAPI
 import com.fpinbo.kall.api.User
+import com.fpinbo.kall.category.IntegrationTest
 import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.experimental.categories.Category
 import java.util.concurrent.CountDownLatch
 
+@Category(IntegrationTest::class)
 class TestMonadKall {
 
     val api = GitHubAPI()
@@ -23,8 +26,8 @@ class TestMonadKall {
         val response = call.execute()
 
         response.fold(
-            { fail() },
-            { assertEquals("mattpoggi", it.body.first().login) })
+                { fail() },
+                { assertEquals("mattpoggi", it.body.first().login) })
     }
 
     @Test
@@ -35,8 +38,8 @@ class TestMonadKall {
         val response = call.execute()
 
         response.fold(
-            { assertEquals(404, response.code) },
-            { fail() })
+                { assertEquals(404, response.code) },
+                { fail() })
     }
 
     @Test
@@ -48,18 +51,18 @@ class TestMonadKall {
         }
 
         call.executeAsync(
-            onResponse = { _, response ->
-                response.fold(
-                    { fail() },
-                    {
-                        assertEquals("mattpoggi", it.body.first().login)
-                        latch.countDown()
-                    })
-            },
-            onFailure = { _, _ ->
-                latch.countDown()
-                fail()
-            }
+                onResponse = { _, response ->
+                    response.fold(
+                            { fail() },
+                            {
+                                assertEquals("mattpoggi", it.body.first().login)
+                                latch.countDown()
+                            })
+                },
+                onFailure = { _, _ ->
+                    latch.countDown()
+                    fail()
+                }
         )
 
         latch.await()
