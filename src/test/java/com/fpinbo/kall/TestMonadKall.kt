@@ -1,7 +1,6 @@
 package com.fpinbo.kall
 
-import com.fpinbo.kall.api.GitHubAPI
-import com.fpinbo.kall.api.User
+import com.fpinbo.kall.api.github.GitHubAPI
 import com.fpinbo.kall.category.IntegrationTest
 import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertEquals
@@ -14,8 +13,6 @@ import java.util.concurrent.CountDownLatch
 class TestMonadKall {
 
     val api = GitHubAPI()
-
-    val dcampogiani = User("dcampogiani", "https://api.github.com/users/dcampogiani/followers")
 
     @Test
     fun flatMapSuccess() {

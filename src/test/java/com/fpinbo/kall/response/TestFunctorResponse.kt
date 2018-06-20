@@ -1,6 +1,6 @@
 package com.fpinbo.kall.response
 
-import com.fpinbo.kall.api.GitHubAPI
+import com.fpinbo.kall.api.github.GitHubAPI
 import com.fpinbo.kall.category.IntegrationTest
 import org.junit.Assert.*
 import org.junit.Test

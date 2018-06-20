@@ -1,7 +1,7 @@
 package com.fpinbo.kall
 
-import com.fpinbo.kall.api.GitHubAPI
-import com.fpinbo.kall.api.User
+import com.fpinbo.kall.api.github.GitHubAPI
+import com.fpinbo.kall.api.github.User
 import com.fpinbo.kall.category.IntegrationTest
 import com.fpinbo.kall.response.fold
 import org.junit.Assert.assertEquals
