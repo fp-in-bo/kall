@@ -17,9 +17,20 @@ group = 'com.github.fp-in-bo'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
+    compile 'io.arrow-kt:arrow-core:0.7.1'
+    compile 'io.arrow-kt:arrow-syntax:0.7.1'
+    compile 'io.arrow-kt:arrow-typeclasses:0.7.1'
+    compile 'io.arrow-kt:arrow-data:0.7.1'
+    compile 'io.arrow-kt:arrow-instances-core:0.7.1'
+    compile 'io.arrow-kt:arrow-instances-data:0.7.1'
+    kapt 'io.arrow-kt:arrow-annotations-processor:0.7.1'
+    compile 'io.arrow-kt:arrow-mtl:0.7.1'
+    compile 'io.arrow-kt:arrow-effects:0.7.1'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 
