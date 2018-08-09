@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Stargazer(
-    @JsonProperty("avatar_url") val avatarUrl: String,
-    @JsonProperty("login") val userName: String
+data class User(
+        @JsonProperty("login") val login: String,
+        @JsonProperty("followers_url") val followersUrl: String
 )

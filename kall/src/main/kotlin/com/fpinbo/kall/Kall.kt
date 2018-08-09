@@ -23,7 +23,7 @@ sealed class Kall<A> {
     abstract val executed: Boolean
 
     internal data class RetrofitKall<A>(
-        private val retrofitCall: retrofit2.Call<A>
+            private val retrofitCall: retrofit2.Call<A>
     ) : Kall<A>() {
         override fun cancel() = retrofitCall.cancel()
 
@@ -63,8 +63,8 @@ sealed class Kall<A> {
     }
 
     internal data class Map<A, B>(
-        private val original: Kall<A>,
-        private val f: (A) -> B
+            private val original: Kall<A>,
+            private val f: (A) -> B
     ) : Kall<B>() {
         override fun cancel() = original.cancel()
 
@@ -83,26 +83,26 @@ sealed class Kall<A> {
     }
 
     internal data class FlatMap<A, B>(
-        private val original: Kall<A>,
-        private val f: (A) -> Kall<B>
+            private val original: Kall<A>,
+            private val f: (A) -> Kall<B>
     ) : Kall<B>() {
         override fun cancel() = original.cancel()
 
         override fun clone(): Kall<B> = FlatMap(original.clone(), f)
 
         override fun executeAsync(onResponse: (Kall<B>, Response<B>) -> Unit,
-            onFailure: (Kall<B>, Throwable) -> Unit) {
+                                  onFailure: (Kall<B>, Throwable) -> Unit) {
 
             original.executeAsync({ _, response ->
                 response.fold(
-                    { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
-                    {
-                        f(it.body).executeAsync({ _, res ->
-                            res.fold(
-                                { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
-                                { onResponse(this, res) })
-                        }, { _, t -> onFailure(this, t) })
-                    })
+                        { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
+                        {
+                            f(it.body).executeAsync({ _, res ->
+                                res.fold(
+                                        { Response.Error<B>(it.errorBody, it.code, it.headers, it.message) },
+                                        { onResponse(this, res) })
+                            }, { _, t -> onFailure(this, t) })
+                        })
 
             }, { _, t -> onFailure(this, t) })
         }

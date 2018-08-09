@@ -19,15 +19,15 @@ interface GitHubAPI {
 
         private val instance: Retrofit by lazy {
             Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(KallAdapterFactory())
-                .client(OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
-                    .build())
-                .build()
+                    .baseUrl("https://api.github.com/")
+                    .addConverterFactory(JacksonConverterFactory.create())
+                    .addCallAdapterFactory(KallAdapterFactory())
+                    .client(OkHttpClient.Builder()
+                            .addInterceptor(HttpLoggingInterceptor().apply {
+                                level = HttpLoggingInterceptor.Level.BODY
+                            })
+                            .build())
+                    .build()
         }
     }
 

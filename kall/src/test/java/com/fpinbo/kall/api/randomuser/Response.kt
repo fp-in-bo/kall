@@ -11,6 +11,6 @@ data class Result(@JsonProperty("name") val name: Name)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Name(
-    @JsonProperty("first") val first: String,
-    @JsonProperty("last") val last: String
+        @JsonProperty("first") val first: String,
+        @JsonProperty("last") val last: String
 )

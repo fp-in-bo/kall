@@ -17,15 +17,15 @@ interface RandomUserAPI {
 
         private val instance: Retrofit by lazy {
             Retrofit.Builder()
-                .baseUrl("https://randomuser.me/api/")
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(KallAdapterFactory())
-                .client(OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
-                    .build())
-                .build()
+                    .baseUrl("https://randomuser.me/api/")
+                    .addConverterFactory(JacksonConverterFactory.create())
+                    .addCallAdapterFactory(KallAdapterFactory())
+                    .client(OkHttpClient.Builder()
+                            .addInterceptor(HttpLoggingInterceptor().apply {
+                                level = HttpLoggingInterceptor.Level.BODY
+                            })
+                            .build())
+                    .build()
         }
     }
 

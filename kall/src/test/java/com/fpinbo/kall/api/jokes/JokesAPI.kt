@@ -18,15 +18,15 @@ interface JokesAPI {
 
         private val instance: Retrofit by lazy {
             Retrofit.Builder()
-                .baseUrl("http://api.icndb.com/jokes/")
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(KallAdapterFactory())
-                .client(OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
-                    .build())
-                .build()
+                    .baseUrl("http://api.icndb.com/jokes/")
+                    .addConverterFactory(JacksonConverterFactory.create())
+                    .addCallAdapterFactory(KallAdapterFactory())
+                    .client(OkHttpClient.Builder()
+                            .addInterceptor(HttpLoggingInterceptor().apply {
+                                level = HttpLoggingInterceptor.Level.BODY
+                            })
+                            .build())
+                    .build()
         }
     }
 
