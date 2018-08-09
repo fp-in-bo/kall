@@ -1,0 +1,23 @@
+apply plugin: 'kotlin'
+group = 'com.github.fp-in-bo'
+
+
+dependencies {
+    implementation project(':kall')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation     "io.arrow-kt:arrow-data:0.7.2"
+    kapt        "io.arrow-kt:arrow-annotations-processor:0.7.2"
+    kaptTest    "io.arrow-kt:arrow-annotations-processor:0.7.2"
+
+    testImplementation 'junit:junit:4.12'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.6"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.6"
+}
+
+apply plugin: 'kotlin-kapt'
